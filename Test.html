@@ -3,197 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retro Snake Game</title>
+    <title>Quint | Information Systems Portfolio</title>
     <style>
-        body {
-            background-color: #111;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        /* Base Colors & Typography */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
             margin: 0;
-            overflow: hidden;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            padding: 180px 0 100px 0;
+            text-align: center;
         }
 
         h1 {
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
         }
 
-        #score-board {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .highlight {
+            color: var(--accent-color);
         }
 
-        canvas {
-            background-color: #000;
-            border: 4px solid #333;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem auto;
         }
 
-        .controls {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #888;
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #0f172a;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Grid System (Skills & Projects) */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .skill-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-card ul {
+            list-style: none;
+        }
+
+        .skill-card li {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .project-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .project-meta strong {
+            color: var(--text-main);
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } /* Keeps layout tidy on small phones */
+            .contact-box { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <h1>SNAKE</h1>
-    <div id="score-board">Score: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div class="controls">Use <b>Arrow Keys</b> or <b>WASD</b> to move.</div>
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">Quint.IS</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        const scoreElement = document.getElementById("score");
+    <section id="hero" class="container">
+        <h1>Hi, I'm <span class="highlight">Quint</span>.</h1>
+        <p class="hero-sub">I bridge the gap between complex data and strategic business solutions, focusing on designing, analyzing, and optimizing technology architectures.</p>
+        <a href="#projects" class="btn">View My Work</a>
+    </section>
 
-        // Grid and game variables
-        const gridSize = 20;
-        const tileCount = canvas.width / gridSize;
-        
-        let snake = [{ x: 10, y: 10 }];
-        let food = { x: 5, y: 5 };
-        let dx = 1; // horizontal velocity
-        let dy = 0; // vertical velocity
-        let score = 0;
-        let gameInterval;
-        const gameSpeed = 100; // lower is faster (milliseconds)
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <p style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--text-muted); font-size: 1.1rem;">
+            I am an Information Systems professional passionate about turning data into actionable insights and aligning IT strategy with organizational goals. My expertise lies at the intersection of technology and business—whether that's optimizing databases, analyzing system workflows, or managing technical projects from conception to deployment.
+        </p>
+    </section>
 
-        // Start Game
-        function startGame() {
-            placeFood();
-            gameInterval = setInterval(updateGame, gameSpeed);
-        }
+    <section id="skills" class="container">
+        <h2 class="section-title">Core Competencies</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Systems & Analysis</h3>
+                <ul>
+                    <li>Systems Analysis & Design</li>
+                    <li>Agile / Scrum</li>
+                    <li>Business Process Modeling</li>
+                    <li>ERP Systems</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Data & Analytics</h3>
+                <ul>
+                    <li>SQL (PostgreSQL, MySQL)</li>
+                    <li>Python (Pandas, NumPy)</li>
+                    <li>Tableau & Power BI</li>
+                    <li>Advanced Excel</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Cloud & Infrastructure</h3>
+                <ul>
+                    <li>AWS / Azure basics</li>
+                    <li>Network Architecture</li>
+                    <li>IT Security Fundamentals</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Project Management</h3>
+                <ul>
+                    <li>Jira & Trello</li>
+                    <li>SDLC Methodology</li>
+                    <li>Stakeholder Management</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        // Main game loop
-        function updateGame() {
-            moveSnake();
+    <section id="projects" class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            
+            <div class="project-card">
+                <div>
+                    <h3>Business Intelligence Dashboard</h3>
+                    <p class="project-meta"><strong>Problem:</strong> Fragile retail data scattered across disparate regional operations.</p>
+                    <p class="project-meta"><strong>Solution:</strong> Formulated SQL analytics pipelines visualized inside interactive Power BI sheets.</p>
+                    <p class="project-meta"><strong>Impact:</strong> Shaved weekly operational reporting processing speeds down by 40%.</p>
+                </div>
+            </div>
 
-            if (checkGameOver()) {
-                clearInterval(gameInterval);
-                alert(`Game Over! Your score: ${score}`);
-                resetGame();
-                return;
-            }
+            <div class="project-card">
+                <div>
+                    <h3>E-Commerce Database Architecture</h3>
+                    <p class="project-meta"><strong>Problem:</strong> Transitioning manual sales records to scalable database structures.</p>
+                    <p class="project-meta"><strong>Solution:</strong> Modeled conceptual ERDs and structured 3NF normalization via PostgreSQL.</p>
+                    <p class="project-meta"><strong>Impact:</strong> Efficiently handled 10,000+ test transactional cycles without bottlenecks.</p>
+                </div>
+            </div>
 
-            checkFoodCollision();
-            drawGrid();
-        }
+            <div class="project-card">
+                <div>
+                    <h3>System Design Optimization</h3>
+                    <p class="project-meta"><strong>Problem:</strong> Heavy workflows clogging customer onboarding pipelines within a CRM framework.</p>
+                    <p class="project-meta"><strong>Solution:</strong> Generated complete SAD mapping strategies coupled with lightweight automated cloud triggers.</p>
+                    <p class="project-meta"><strong>Impact:</strong> Shortened complete process fulfillment timelines from 5 working days down to 2 days.</p>
+                </div>
+            </div>
 
-        // Draw everything
-        function drawGrid() {
-            // Clear canvas
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        </div>
+    </section>
 
-            // Draw Snake
-            ctx.fillStyle = "lime";
-            snake.forEach((part, index) => {
-                // Make the head a slightly different color if you want
-                ctx.fillStyle = index === 0 ? "#00ff00" : "#00cc00";
-                ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize - 2, gridSize - 2);
-            });
+    <section id="contact" class="container">
+        <div class="contact-box">
+            <h2 style="margin-bottom: 1rem;">Let's build something efficient together.</h2>
+            <p style="color: var(--text-muted);">Whether you have a process to optimize or need a technical manager, my inbox is open.</p>
+            <div class="contact-links">
+                <a href="mailto:quint@yourdomain.com">Email Me</a>
+                <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </section>
 
-            // Draw Food
-            ctx.fillStyle = "red";
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-        }
+    <footer>
+        <p>&copy; 2026 Quint. All rights reserved.</p>
+    </footer>
 
-        // Move the snake forward
-        function moveSnake() {
-            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-            snake.unshift(head); // Add new head to the front
-            snake.pop(); // Remove the tail
-        }
-
-        // Check if snake hit the wall or itself
-        function checkGameOver() {
-            const head = snake[0];
-
-            // Wall collisions
-            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-                return true;
-            }
-
-            // Self collisions (skip index 0 because that's the head)
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Check if snake ate the food
-        function checkFoodCollision() {
-            const head = snake[0];
-            if (head.x === food.x && head.y === food.y) {
-                score += 10;
-                scoreElement.innerText = score;
-                
-                // Grow snake by keeping the tail this turn
-                snake.push({}); 
-                
-                placeFood();
-            }
-        }
-
-        // Spawn food at random coordinates
-        function placeFood() {
-            food.x = Math.floor(Math.random() * tileCount);
-            food.y = Math.floor(Math.random() * tileCount);
-
-            // Ensure food doesn't spawn inside the snake
-            snake.forEach(part => {
-                if (part.x === food.x && part.y === food.y) {
-                    placeFood();
-                }
-            });
-        }
-
-        // Handle Keyboard Controls
-        window.addEventListener("keydown", e => {
-            switch (e.key) {
-                case "ArrowUp":
-                case "w":
-                case "W":
-                    if (dy !== 1) { dx = 0; dy = -1; } // Prevent moving directly backwards
-                    break;
-                case "ArrowDown":
-                case "s":
-                case "S":
-                    if (dy !== -1) { dx = 0; dy = 1; }
-                    break;
-                case "ArrowLeft":
-                case "a":
-                case "A":
-                    if (dx !== 1) { dx = -1; dy = 0; }
-                    break;
-                case "ArrowRight":
-                case "d":
-                case "D":
-                    if (dx !== -1) { dx = 1; dy = 0; }
-                    break;
-            }
-        });
-
-        // Reset game state
-        function resetGame() {
-            snake = [{ x: 10, y: 10 }];
-            dx = 1;
-            dy = 0;
-            score = 0;
-            scoreElement.innerText = score;
-            startGame();
-        }
-
-        // Run the game
-        startGame();
-    </script>
 </body>
 </html>
